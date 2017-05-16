@@ -1,0 +1,79 @@
+#-------------------------------------------------#
+# Title: Working with Classes & Dictionaries
+# Dev:   RRoot
+# Date:  July 16, 2012
+# ChangeLog: (Who, When, What)
+#   RRoot, 11/02/2016, Created starting template
+#   Michael Murphy, 5/14/2017, Added code to complete assignment 6
+#https://www.tutorialspoint.com/python/python_dictionary.htm
+#-------------------------------------------------#
+readFile = open("C:\\_PythonClass\\ToDo.txt", "r")
+dictionary = {}
+
+class toDoList(object):
+    @staticmethod
+    #This function reads the input file and saves to a dictionary of the same name
+    def readText():
+        with readFile as f:
+            for line in f:
+                key, value = (line.strip()).split(",")
+                dictionary[key] = value
+        readFile.close()
+
+    @staticmethod
+    #This function displays the data in the dictionary
+    def displayText():
+        for myKey, myValue in dictionary.items():
+            print(myKey, "=", myValue)
+
+    @staticmethod
+    #This function selects the task: add, remove or save/quit
+    def taskSelect():
+        print("------------------------------------------------------")
+        while(True):
+            print("Menu of Options:")
+            print("Choose 1 to Add task")
+            print("Choose 2 to Remove task")
+            print("Choose 3 to Save all tasks to the Todo.txt file and exit!")
+            choice = input("Which Choice would you like to select?: ")
+            if choice == "1":
+                newTask1 = str(input("Enter the task you would like to add: ")).lower()
+                while (True):
+                    newPriority1 = str(input("Enter the priority of " + newTask1 + " (high\medium\low): ")).lower()
+                    if newPriority1 == "low":
+                        break
+                    elif newPriority1 == "medium":
+                        break
+                    elif newPriority1 == "high":
+                        break
+                    else:
+                        print("Invalid Entry. You must enter low/medium/high")
+                dictionary[newTask1] = newPriority1.lower()
+                toDoList.displayText()
+            elif choice == "2":
+                while(True):
+                    delTask2 = str(input("Enter the task you would like to remove: "))
+                    if delTask2 in dictionary:
+                        del dictionary[delTask2]
+                        toDoList.displayText()
+                        break
+                    else:
+                        print(delTask2 + " is not defined in the list. ", end="")
+            elif choice == "3":
+                break
+            else:
+                print("Choice is not valid. Please select from option 1, 2 or 3")
+
+    @staticmethod
+    def saveFile():
+        #Function to save the data to a text file
+        writeFile = open("C:\\_PythonClass\\ToDo.txt", "w")
+        for key, value in dictionary.items():
+            writeFile.writelines(key + "," + value + "\n")
+        writeFile.close()
+        print("File Saved")
+
+toDoList.readText()
+toDoList.displayText()
+toDoList.taskSelect()
+toDoList.saveFile()
